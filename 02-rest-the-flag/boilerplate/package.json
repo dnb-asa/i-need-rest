@@ -1,0 +1,11 @@
+{
+  "name": "rest-the-flag",
+  "version": "1.0.0",
+  "description": "boilerplate template for setting up a node client for the competition rest-the-flag",
+  "main": "index.js",
+  "author": "Codedevstem & Arne",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.88.0"
+  }
+}

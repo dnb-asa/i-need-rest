@@ -1,0 +1,113 @@
+openapi: "3.0.0"
+info:
+  title: I-Need-REST API
+  description: This is a REST spesification for the first stargate workshop.
+  version: 1.0.0
+servers:
+  - url: https://www.starg.at/e/api
+    description: Optional server description, e.g. Main (production) server
+paths:
+  /register/{identificationKey}:
+    get:
+      tags:
+        - Register
+      summary: "Get registration key"
+      parameters:
+        - in: path
+          name: identificationKey
+          required: true
+          description: UUID that was provided in the email.
+          schema:
+            $ref: "#/components/schemas/IdentificationKey"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegistrationKey"
+  /register:
+    post:
+      tags:
+        - "Register"
+      summary: ""
+      description: ""
+      operationId: "addPet"
+      parameters:
+        - in: query
+          name: Register Group
+          description: "Registration "
+          required: true
+          schema:
+            $ref: "#/components/schemas/RegistrationKey"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistrationBody"
+      responses:
+        200:
+          description: Successful operatio
+
+  /scoreboard:
+    get:
+      tags:
+        - Scoreboard
+      summary: Returns list of scoreboard with basic information about each player
+    post:
+      tags:
+        - Scoreboard
+      summary: Submits your time to the scoreboard
+
+  /🔫:
+    get:
+      tags:
+        - 🔫
+      summary: Get ammunition for your gun to use on other players.
+    post:
+      tags:
+        - 🔫
+      summary: Noone likes competition
+      description:
+        You can choose to use ammunition to shoot another group on the scoreboard and you can even decide how much time you want to add to another player.
+        The risk matrix looks like this [low = [time = 5m, hitchance = 85%], medium = [time = 10m, hitchance = 50%], high = [time = 15m, hitchance = 25%], extreme = [time = 30m, hitchance = 5%]].
+        IMPORTANT NOTE! If you miss your target, the time that you would have added to the other player is instead added to yourself.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Ammunition"
+components:
+  schemas:
+    IdentificationKey:
+      type: string
+      format: "uuid"
+    RegistrationKey:
+      description: Unique key in response of successful /register/{identificationKey}
+      type: "string"
+    RegistrationBody:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name
+        members:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                description: Name of member
+                type: string
+              id:
+                $ref: "#/components/schemas/IdentificationKey"
+        registrationkey:
+          $ref: "#/components/schemas/RegistrationKey"
+      required:
+        - groupname
+    Ammunition:
+      type: String
+      format: uuid
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
