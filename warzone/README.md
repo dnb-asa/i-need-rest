@@ -36,7 +36,7 @@ Each player starts out with 100 health, and can request 10 coins. These coins ca
 
 -   `Armor: absorbs 75% of the damage`
 
-### `/bandages`
+### `/bandages` ⛑
 
 -   `Bandage heal: 15 health`
 
