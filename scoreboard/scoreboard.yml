@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: Scoreboard
+  description: The API specification of the Scoreboard lab
+  version: 1.0.0
+servers:
+  - url: https://starg.at/e/api
+    description: Production server
+
+paths:
+  /register:
+    post:
+      tags:
+        - register
+      summary: Register yourself or a group to the competition
+      description: This endpoints registers yourself or a group, and returns a token which is needed for further requests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/group"
+      responses:
+        200:
+          $ref: "#/components/responses/token"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        409:
+          $ref: "#components/responses/conflict"
+
+  /scoreboard:
+    post:
+      tags:
+        - scoreboard
+      summary: Submit your group to the scoreboard
+      description: This endpoints submits your group to the scoreboard, given the provided token is valid
+      security:
+        - bearer: []
+      responses:
+        200:
+          description: Succesfully submitted to scoreboard
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/group"
+        409:
+          $ref: "#/components/responses/conflict"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        401:
+          $ref: "#/components/responses/unauthorized"
+    get:
+      tags:
+        - scoreboard
+      summary: Get the groups registered on the scoreboard
+      description: This endpoint returns all group currently on the scoreboard
+      responses:
+        200:
+          description: Succesfully submitted to scoreboard
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/groups"
+
+components:
+  securitySchemes:
+    bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+  responses:
+    token:
+      description: Your access token
+    conflict:
+      description: One or more resources already exists
+    invalidRequest:
+      description: Invalid request, please check the documentation
+    unauthorized:
+      description: Invalid or missing token
+  schemas:
+    group:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Your nickname
+          example: "The Geniuses"
+        members:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: The UUID your received by mail
+                example: "2d71dee4-8aa3-40ee-b596-cb8692771475"
+      required:
+        - name
+        - members
+    groups:
+      type: array
+      items:
+        $ref: "#/components/schemas/group"

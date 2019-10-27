@@ -1,0 +1,454 @@
+openapi: 3.0.0
+info:
+  title: Warzone
+  description: The API specification for the Warzone game
+  version: 1.0.0
+servers:
+  - url: https://starg.at/e/api
+    description: Production server
+
+paths:
+  /join:
+    get:
+      tags:
+        - Warzone
+      summary: Join the Warzone game
+      description: This endpoints registers yourself or a group, and returns a token which is needed for further requests
+      security:
+        - bearer: []
+      requestBody:
+        $ref: "#components/requestBodies/join"
+      responses:
+        200:
+          $ref: "#/components/responses/default"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        409:
+          $ref: "#components/responses/conflict"
+  /coins:
+    get:
+      tags:
+        - Coins
+      summary: Request coins
+      description: This endpoint gives you coins if you've not already gotten any
+      security:
+        - bearer: []
+      responses:
+        200:
+          $ref: "#/components/responses/default"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        409:
+          $ref: "#components/responses/conflict"
+  /armor:
+    get:
+      tags:
+        - Armor
+      summary: Buy armor
+      description: This endpoint can be used to buy armor with your coins
+      security:
+        - bearer: []
+      parameters:
+        - in: query
+          name: amount
+          schema:
+            $ref: "#/components/schemas/amount"
+          required: true
+      responses:
+        200:
+          $ref: "#/components/responses/default"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        409:
+          $ref: "#components/responses/conflict"
+  /bandage:
+    get:
+      tags:
+        - Bandage
+      summary: Buy bandages
+      description: This endpoint can be used to buy bandages with your coins
+      security:
+        - bearer: []
+      parameters:
+        - in: query
+          name: amount
+          schema:
+            $ref: "#/components/schemas/amount"
+          required: true
+      responses:
+        200:
+          $ref: "#/components/responses/default"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        409:
+          $ref: "#components/responses/conflict"
+    post:
+      tags:
+        - Bandage
+      summary: Heal yourself
+      description: This endpoint can be used to apply bandages and restore some health
+      security:
+        - bearer: []
+      responses:
+        200:
+          $ref: "#/components/responses/default"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        409:
+          $ref: "#components/responses/conflict"
+  /bazooka:
+    get:
+      tags:
+        - Bazooka
+      summary: Buy rockets
+      description: This endpoint can be used to buy rockets for your bazooka
+      security:
+        - bearer: []
+      parameters:
+        - in: query
+          name: amount
+          schema:
+            $ref: "#/components/schemas/amount"
+          required: true
+      responses:
+        200:
+          $ref: "#/components/responses/default"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        409:
+          $ref: "#components/responses/conflict"
+    post:
+      tags:
+        - Bazooka
+      summary: Fire your bazooka
+      description: This endpoint can be used to fire a bazooka at another group, with a 50% chance of hitting yourself instead
+      security:
+        - bearer: []
+      parameters:
+        - in: path
+          name: target
+          example: "QefIx9EZp6G57DCC8eiV"
+          description: The ID of the group you want to target
+          schema:
+            $ref: "#/components/schemas/target"
+          required: true
+      responses:
+        200:
+          $ref: "#/components/responses/shot"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        409:
+          $ref: "#components/responses/conflict"
+  /pistol:
+    get:
+      tags:
+        - Pistol
+      summary: Buy pistol ammo
+      description: This endpoint can be used to buy ammunation for your pistol
+      security:
+        - bearer: []
+      parameters:
+        - in: query
+          name: amount
+          schema:
+            $ref: "#/components/schemas/amount"
+          required: true
+      responses:
+        200:
+          $ref: "#/components/responses/default"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        409:
+          $ref: "#components/responses/conflict"
+    post:
+      tags:
+        - Pistol
+      summary: Fire your pistol
+      description: This endpoint can be used to shoot another group
+      security:
+        - bearer: []
+      parameters:
+        - in: path
+          name: target
+          example: "QefIx9EZp6G57DCC8eiV"
+          description: The ID of the group you want to target
+          schema:
+            $ref: "#/components/schemas/target"
+          required: true
+      responses:
+        200:
+          $ref: "#/components/responses/shot"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        409:
+          $ref: "#components/responses/conflict"
+  /warzone:
+    get:
+      tags:
+        - Warzone
+      summary: Get all warzone events
+      description: This endpoint returns the entire log of events from the game
+      responses:
+        200:
+          $ref: "#/components/responses/warzoneEvents"
+  /players:
+    get:
+      tags:
+        - Warzone
+      summary: Get all players
+      description: This endpoint returns a list of the game's participating players
+      responses:
+        200:
+          $ref: "#/components/responses/players"
+  /stats:
+    get:
+      tags:
+        - Warzone
+      summary: Get your stats
+      description: This endpoint returns the stats of the player
+      responses:
+        200:
+          $ref: "#/components/responses/player"
+  /prices:
+    get:
+      tags:
+        - Warzone
+      summary: Get the prices of all items
+      description: This endpoint returns a list of all prices for items in the game
+      responses:
+        200:
+          $ref: "#/components/responses/prices"
+  /rules:
+    get:
+      tags:
+        - Warzone
+      summary: Get the game rules
+      description: This endpoint returns the rules of the game
+      responses:
+        200:
+          $ref: "#/components/responses/rules"
+components:
+  securitySchemes:
+    bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+  requestBodies:
+    join:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/player"
+  responses:
+    default:
+      description: Successful request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/default"
+    players:
+      description: The list of players in the game
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/players"
+    warzoneEvents:
+      description: The list of events from the game
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/warzoneEvents"
+    prices:
+      description: The prices for items in the game
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/prices"
+    rules:
+      description: The rules of the game
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/rules"
+    player:
+      description: The group stats after the action is performed
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/player"
+    shot:
+      description: The result of a fired shot
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/message"
+    conflict:
+      description: One or more resources already exists
+    invalidRequest:
+      description: Invalid request, please check the documentation
+    unauthorized:
+      description: Invalid or missing token
+  schemas:
+    default:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The message returned from the server
+          example: "A descriptive message"
+        group:
+          $ref: "#/components/schemas/player"
+    prices:
+      type: object
+      properties:
+        ammo:
+          type: integer
+          description: The ammo cost
+          example: 1
+        rocket:
+          type: integer
+          description: The rocket cost
+          example: 2
+        bandage:
+          type: integer
+          description: The bandage cost
+          example: 1
+        armor:
+          type: integer
+          description: The armor cost
+          example: 1
+    rules:
+      type: object
+      properties:
+        description:
+          type: string
+          description: The game description
+        initialHealth:
+          type: integer
+          description: The initial health of new players
+        armor:
+          type: number
+          description: The reduction factor applied to a shot when using armor
+        initialCoins:
+          type: integer
+          description: The initial amount of coins
+        reviveCoins:
+          type: integer
+          description: The amount of coins given after a revive
+        pistolDamage:
+          type: integer
+          description: The amount of damage a pistol gives to a target
+        bazookaDamage:
+          type: integer
+          description: The amount of damaga a bazooka gives to a targer
+        bazookaRisk:
+          type: integer
+          description: The chance of getting hit by your own bazooka shot, given in percents
+        prices:
+          type: string
+          description: The endpoint for getting prices
+    warzoneEvents:
+      type: array
+      items:
+        $ref: "#/components/schemas/warzoneEvent"
+    warzoneEvent:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identificator of the event
+          example: "QefIx9EZp6G57DCC8eiV"
+        type:
+          type: string
+          description: The type of event being fired
+          example: "revive"
+        source:
+          type: string
+          description: The group who fired the event
+          example: "Group A"
+        target:
+          type: string
+          description: The target of the event
+          example: "Group B"
+        message:
+          type: string
+          description: A message
+          example: "Group A just shot Group B!"
+    message:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message
+          example: "You gave 25 damage to Group A"
+    amount:
+      type: integer
+      description: The amount of resources you want to buy
+      example: "https://starg.at/e/api/bandages?amount=2"
+    target:
+      type: string
+      description: The unique identificator of the group to shoot at
+      example: "QefIx9EZp6G57DCC8eiV"
+    players:
+      type: array
+      items:
+        $ref: "#/components/schemas/player"
+    player:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identificator of the group
+          example: "QefIx9EZp6G57DCC8eiV"
+        name:
+          type: string
+          description: Your nickname
+          example: "The Geniuses"
+        members:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: The UUID your received by mail
+                example: "2d71dee4-8aa3-40ee-b596-cb8692771475"
+        health:
+          type: integer
+          description: The current health of the group
+          example: 100
+        coins:
+          type: integer
+          description: The amount of coins
+          example: 10
+        ammo:
+          type: integer
+          description: The amount of pistol ammo
+          example: 2
+        armor:
+          type: integer
+          description: The amount of armor
+          example: 2
+        bandages:
+          type: integer
+          description: The amount of bandages
+          example: 2
+        rockets:
+          type: integer
+          description: The amount of rockets
+          example: 1
+        kills:
+          type: integer
+          description: The amount of kills
+          example: 3
+        deaths:
+          type: integer
+          description: The amount of deaths
+          example: 1
+        dead:
+          type: boolean
+          description: Dead or no dead?
+          example: true
+      required:
+        - name
+        - members
