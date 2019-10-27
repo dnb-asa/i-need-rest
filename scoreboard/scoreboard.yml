@@ -11,7 +11,7 @@ paths:
   /register:
     post:
       tags:
-        - register
+        - Register
       summary: Register yourself or a group to the competition
       description: This endpoints registers yourself or a group, and returns a token which is needed for further requests
       requestBody:
@@ -30,7 +30,7 @@ paths:
   /scoreboard:
     post:
       tags:
-        - scoreboard
+        - Scoreboard
       summary: Submit your group to the scoreboard
       description: This endpoints submits your group to the scoreboard, given the provided token is valid
       security:
@@ -50,7 +50,7 @@ paths:
           $ref: "#/components/responses/unauthorized"
     get:
       tags:
-        - scoreboard
+        - Scoreboard
       summary: Get the groups registered on the scoreboard
       description: This endpoint returns all group currently on the scoreboard
       responses:
