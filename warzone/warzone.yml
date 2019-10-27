@@ -227,6 +227,17 @@ paths:
       responses:
         200:
           $ref: "#/components/responses/rules"
+  /revive:
+    get:
+      tags:
+        - Revive
+      summary: Revive player
+      description: This endpoint revives the player and restores 5 coins
+      security:
+        - bearer: []
+      responses:
+        200:
+          $ref: "#/components/responses/default"
 components:
   securitySchemes:
     bearer:
