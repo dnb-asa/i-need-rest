@@ -1,5 +1,9 @@
 # Scoreboard
 
+## Documentation
+
+https://starg.at/e/docs/scoreboard
+
 ## Rules 📝
 
 Register yourself on the scoreboard as fast as you can.
@@ -118,16 +122,7 @@ Your response should look something like this:
 
 ```json
 {
-  "message": "Submitted! 🏅",
-  "group": {
-    "id": "qSPkndIWQM0YUoIsLrrZ",
-    "name": "Cool kids 😎",
-    "members": [
-      {
-        "id": "2e39bed1-2b2e-4bf3-885e-974116c732db"
-      }
-    ]
-  }
+    "message": "Submitted! 🏅"
 }
 ```
 

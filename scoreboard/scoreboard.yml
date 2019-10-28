@@ -24,8 +24,6 @@ paths:
           $ref: "#/components/responses/token"
         400:
           $ref: "#/components/responses/invalidRequest"
-        409:
-          $ref: "#components/responses/conflict"
 
   /scoreboard:
     post:
@@ -42,12 +40,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/group"
-        409:
-          $ref: "#/components/responses/conflict"
         400:
           $ref: "#/components/responses/invalidRequest"
         401:
           $ref: "#/components/responses/unauthorized"
+        403:
+          $ref: "#/components/responses/forbidden"
     get:
       tags:
         - Scoreboard
@@ -76,6 +74,8 @@ components:
       description: Invalid request, please check the documentation
     unauthorized:
       description: Invalid or missing token
+    forbidden:
+      description: Forbidden request
   schemas:
     group:
       type: object

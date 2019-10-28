@@ -17,22 +17,6 @@ paths:
       responses:
         200:
           $ref: "#/components/responses/warzoneEvents"
-    post:
-      tags:
-        - Warzone
-      summary: Join the Warzone game
-      description: This endpoints registers yourself or a group, and returns a token which is needed for further requests
-      security:
-        - bearer: []
-      requestBody:
-        $ref: "#components/requestBodies/join"
-      responses:
-        200:
-          $ref: "#/components/responses/default"
-        400:
-          $ref: "#/components/responses/invalidRequest"
-        409:
-          $ref: "#components/responses/conflict"
   /coins:
     get:
       tags:
@@ -43,11 +27,13 @@ paths:
         - bearer: []
       responses:
         200:
-          $ref: "#/components/responses/default"
+          $ref: "#/components/responses/message"
         400:
           $ref: "#/components/responses/invalidRequest"
-        409:
-          $ref: "#components/responses/conflict"
+        404:
+          $ref: "#/components/responses/notFound"
+        403:
+          $ref: "#/components/responses/forbidden"
   /armor:
     get:
       tags:
@@ -64,15 +50,17 @@ paths:
           required: true
       responses:
         200:
-          $ref: "#/components/responses/default"
+          $ref: "#/components/responses/message"
         400:
           $ref: "#/components/responses/invalidRequest"
-        409:
-          $ref: "#components/responses/conflict"
-  /bandage:
+        404:
+          $ref: "#/components/responses/notFound"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /bandages:
     get:
       tags:
-        - Bandage
+        - Bandages
       summary: Buy bandages
       description: This endpoint can be used to buy bandages with your coins
       security:
@@ -85,25 +73,29 @@ paths:
           required: true
       responses:
         200:
-          $ref: "#/components/responses/default"
+          $ref: "#/components/responses/message"
         400:
           $ref: "#/components/responses/invalidRequest"
-        409:
-          $ref: "#components/responses/conflict"
+        404:
+          $ref: "#/components/responses/notFound"
+        403:
+          $ref: "#/components/responses/forbidden"
     post:
       tags:
-        - Bandage
-      summary: Heal yourself
+        - Bandages
+      summary: Use bandages
       description: This endpoint can be used to apply bandages and restore some health
       security:
         - bearer: []
       responses:
         200:
-          $ref: "#/components/responses/default"
+          $ref: "#/components/responses/message"
         400:
           $ref: "#/components/responses/invalidRequest"
-        409:
-          $ref: "#components/responses/conflict"
+        404:
+          $ref: "#/components/responses/notFound"
+        403:
+          $ref: "#/components/responses/forbidden"
   /bazooka:
     get:
       tags:
@@ -120,11 +112,13 @@ paths:
           required: true
       responses:
         200:
-          $ref: "#/components/responses/default"
+          $ref: "#/components/responses/message"
         400:
           $ref: "#/components/responses/invalidRequest"
-        409:
-          $ref: "#components/responses/conflict"
+        404:
+          $ref: "#/components/responses/notFound"
+        403:
+          $ref: "#/components/responses/forbidden"
     post:
       tags:
         - Bazooka
@@ -145,8 +139,10 @@ paths:
           $ref: "#/components/responses/shot"
         400:
           $ref: "#/components/responses/invalidRequest"
-        409:
-          $ref: "#components/responses/conflict"
+        404:
+          $ref: "#/components/responses/notFound"
+        403:
+          $ref: "#/components/responses/forbidden"
   /pistol:
     get:
       tags:
@@ -163,11 +159,13 @@ paths:
           required: true
       responses:
         200:
-          $ref: "#/components/responses/default"
+          $ref: "#/components/responses/message"
         400:
           $ref: "#/components/responses/invalidRequest"
-        409:
-          $ref: "#components/responses/conflict"
+        404:
+          $ref: "#/components/responses/notFound"
+        403:
+          $ref: "#/components/responses/forbidden"
     post:
       tags:
         - Pistol
@@ -188,8 +186,10 @@ paths:
           $ref: "#/components/responses/shot"
         400:
           $ref: "#/components/responses/invalidRequest"
-        409:
-          $ref: "#components/responses/conflict"
+        404:
+          $ref: "#/components/responses/notFound"
+        403:
+          $ref: "#/components/responses/forbidden"
   /players:
     get:
       tags:
@@ -199,12 +199,32 @@ paths:
       responses:
         200:
           $ref: "#/components/responses/players"
+    post:
+      tags:
+        - Warzone
+      summary: Join the Warzone game
+      description: This endpoints registers yourself or a group, and returns a token which is needed for further requests
+      security:
+        - bearer: []
+      requestBody:
+        $ref: "#components/requestBodies/join"
+      responses:
+        200:
+          $ref: "#/components/responses/message"
+        400:
+          $ref: "#/components/responses/invalidRequest"
+        404:
+          $ref: "#/components/responses/notFound"
+        403:
+          $ref: "#/components/responses/forbidden"
   /stats:
     get:
       tags:
         - Warzone
       summary: Get your stats
       description: This endpoint returns the stats of the player
+      security:
+        - bearer: []
       responses:
         200:
           $ref: "#/components/responses/player"
@@ -236,7 +256,11 @@ paths:
         - bearer: []
       responses:
         200:
-          $ref: "#/components/responses/default"
+          $ref: "#/components/responses/message"
+        404:
+          $ref: "#/components/responses/notFound"
+        403:
+          $ref: "#/components/responses/forbidden"
 components:
   securitySchemes:
     bearer:
@@ -250,12 +274,12 @@ components:
           schema:
             $ref: "#/components/schemas/player"
   responses:
-    default:
+    message:
       description: Successful request
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/default"
+            $ref: "#/components/schemas/message"
     players:
       description: The list of players in the game
       content:
@@ -298,16 +322,15 @@ components:
       description: Invalid request, please check the documentation
     unauthorized:
       description: Invalid or missing token
+    notFound:
+      description: Player not found in the database, may not be registered to the game session
+    forbidden:
+      description: Forbidden or invalid action
   schemas:
-    default:
-      type: object
-      properties:
-        message:
-          type: string
-          description: The message returned from the server
-          example: "A descriptive message"
-        group:
-          $ref: "#/components/schemas/player"
+    message:
+      type: string
+      description: The message returned from the server
+      example: "A message containing information about the response"
     prices:
       type: object
       properties:
@@ -384,13 +407,6 @@ components:
           type: string
           description: A message
           example: "Group A just shot Group B!"
-    message:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A message
-          example: "You gave 25 damage to Group A"
     amount:
       type: integer
       description: The amount of resources you want to buy
