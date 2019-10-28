@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Scoreboard
-  description: The API specification of the Scoreboard lab
+  description: The API specification for the Scoreboard task
   version: 1.0.0
 servers:
   - url: https://starg.at/e/api

@@ -8,8 +8,16 @@ servers:
     description: Production server
 
 paths:
-  /join:
+  /warzone:
     get:
+      tags:
+        - Warzone
+      summary: Get all warzone events
+      description: This endpoint returns the entire log of events from the game
+      responses:
+        200:
+          $ref: "#/components/responses/warzoneEvents"
+    post:
       tags:
         - Warzone
       summary: Join the Warzone game
@@ -182,15 +190,6 @@ paths:
           $ref: "#/components/responses/invalidRequest"
         409:
           $ref: "#components/responses/conflict"
-  /warzone:
-    get:
-      tags:
-        - Warzone
-      summary: Get all warzone events
-      description: This endpoint returns the entire log of events from the game
-      responses:
-        200:
-          $ref: "#/components/responses/warzoneEvents"
   /players:
     get:
       tags:
