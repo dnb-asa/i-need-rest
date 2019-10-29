@@ -223,7 +223,7 @@ paths:
         200:
           $ref: "#/components/responses/rules"
   /revive:
-    get:
+    post:
       tags:
         - Revive
       summary: Revive player
