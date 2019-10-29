@@ -42,12 +42,6 @@ paths:
       description: This endpoint can be used to buy armor with your coins
       security:
         - bearer: []
-      parameters:
-        - in: query
-          name: amount
-          schema:
-            $ref: "#/components/schemas/amount"
-          required: true
       responses:
         200:
           $ref: "#/components/responses/message"
@@ -65,12 +59,6 @@ paths:
       description: This endpoint can be used to buy bandages with your coins
       security:
         - bearer: []
-      parameters:
-        - in: query
-          name: amount
-          schema:
-            $ref: "#/components/schemas/amount"
-          required: true
       responses:
         200:
           $ref: "#/components/responses/message"
@@ -104,12 +92,6 @@ paths:
       description: This endpoint can be used to buy rockets for your bazooka
       security:
         - bearer: []
-      parameters:
-        - in: query
-          name: amount
-          schema:
-            $ref: "#/components/schemas/amount"
-          required: true
       responses:
         200:
           $ref: "#/components/responses/message"
@@ -151,12 +133,6 @@ paths:
       description: This endpoint can be used to buy ammunation for your pistol
       security:
         - bearer: []
-      parameters:
-        - in: query
-          name: amount
-          schema:
-            $ref: "#/components/schemas/amount"
-          required: true
       responses:
         200:
           $ref: "#/components/responses/message"
@@ -203,7 +179,7 @@ paths:
       tags:
         - Warzone
       summary: Join the Warzone game
-      description: This endpoints registers yourself or a group, and returns a token which is needed for further requests
+      description: This endpoints registers yourself to the game
       security:
         - bearer: []
       requestBody:
@@ -407,10 +383,6 @@ components:
           type: string
           description: A message
           example: "Group A just shot Group B!"
-    amount:
-      type: integer
-      description: The amount of resources you want to buy
-      example: "https://starg.at/e/api/bandages?amount=2"
     target:
       type: string
       description: The unique identificator of the group to shoot at
@@ -450,15 +422,15 @@ components:
         ammo:
           type: integer
           description: The amount of pistol ammo
-          example: 2
+          example: 1
         armor:
           type: integer
           description: The amount of armor
-          example: 2
+          example: 1
         bandages:
           type: integer
           description: The amount of bandages
-          example: 2
+          example: 1
         rockets:
           type: integer
           description: The amount of rockets
