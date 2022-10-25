@@ -4,7 +4,7 @@ A king of the hill-inspired game where all actions are done by HTTP requests.
 
 ## Documentation
 
-https://wariozone.web.app/specs
+[https://wariozone.web.app/specs](https://wariozone.web.app/specs)
 
 ## Goal 🥅
 

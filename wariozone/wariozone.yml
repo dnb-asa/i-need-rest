@@ -248,7 +248,7 @@ paths:
       tags:
         - Actions
       summary: Revive player
-      description: This endpoint oneups the player to get back in the game. Used if eliminated.
+      description: This endpoint oneups the player to get back in the game. Used if dead.
       security:
         - bearer: []
       responses:
@@ -356,7 +356,7 @@ components:
         initialHealth:
           type: integer
           description: The initial health of new players
-        star:
+        starProtection:
           type: number
           description: The reduction factor applied to a shot when using star
         initialCoins:
@@ -371,9 +371,6 @@ components:
         boomerangRisk:
           type: integer
           description: The chance of getting hit by your own boomerang shot, given in percents
-        prices:
-          type: string
-          description: The endpoint for getting prices
     WariozoneEventResponse:
       type: array
       items:
@@ -453,17 +450,17 @@ components:
           type: integer
           description: The amount of boomerangs
           example: 1
-        eliminations:
+        kills:
           type: integer
-          description: The amount of eliminations
+          description: The amount of kills
           example: 3
         deaths:
           type: integer
           description: The amount of deaths
           example: 1
-        eliminated:
+        dead:
           type: boolean
-          description: Eliminated or not eliminated?
+          description: Dead or not dead?
           example: true
       required:
         - name
@@ -504,7 +501,11 @@ components:
     RegisterResponse:
       type: object
       properties:
+        linkToDocs:
+          type: string
+          description: The link to the documentation for the game. 
         token:
           type: string
           description: JWT Token to be used by group as authentication for further requests.
           example: "xxxxx.yyyyy.zzzzz"
+        
