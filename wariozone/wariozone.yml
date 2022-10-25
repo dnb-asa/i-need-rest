@@ -4,11 +4,11 @@ info:
   description: The API specification for the Wariozone game
   version: 1.0.0
 servers:
-  - url: wariozone.kodeboble.com
+  - url: wariozone.web.app
     description: Production server
 
 paths:
-  /warzone:
+  /wariozone:
     get:
       tags:
         - Feed
@@ -16,7 +16,7 @@ paths:
       description: This endpoint returns the entire log of events from the game
       responses:
         200:
-          $ref: "#/components/responses/WarzoneEventResponse"
+          $ref: "#/components/responses/WariozoneEventResponse"
   /stats:
     get:
       tags:
@@ -81,7 +81,7 @@ paths:
     post:
       tags:
         - Setup
-      summary: Join the Warzone game
+      summary: Join the Wariozone game
       description: This enters the group to the game and opens for use of other endpoints. Before calling this endpoint you cannot participate in the game. 
       security:
         - bearer: []
@@ -111,12 +111,12 @@ paths:
           $ref: "#/components/responses/NotFound"
         403:
           $ref: "#/components/responses/Forbidden"
-  /armor:
+  /star:
     get:
       tags:
         - Actions
-      summary: Buy armor
-      description: This endpoint can be used to buy armor with your coins
+      summary: Buy star
+      description: This endpoint can be used to buy stars with your coins
       security:
         - bearer: []
       responses:
@@ -128,12 +128,12 @@ paths:
           $ref: "#/components/responses/NotFound"
         403:
           $ref: "#/components/responses/Forbidden"
-  /bandages:
+  /mushroom:
     get:
       tags:
         - Actions
-      summary: Buy bandages
-      description: This endpoint can be used to buy bandages with your coins
+      summary: Buy mushroom
+      description: This endpoint can be used to buy mushrooms with your coins
       security:
         - bearer: []
       responses:
@@ -148,8 +148,8 @@ paths:
     post:
       tags:
         - Actions
-      summary: Use bandages
-      description: This endpoint can be used to apply bandages and restore some health
+      summary: Use mushroom
+      description: This endpoint can be used to apply mushroom and restore some health
       security:
         - bearer: []
       responses:
@@ -161,12 +161,12 @@ paths:
           $ref: "#/components/responses/NotFound"
         403:
           $ref: "#/components/responses/Forbidden"
-  /bazooka:
+  /boomerang:
     get:
       tags:
         - Actions
-      summary: Buy rockets
-      description: This endpoint can be used to buy rockets for your bazooka
+      summary: Buy boomerangs
+      description: This endpoint can be used to buy boomerangs
       security:
         - bearer: []
       responses:
@@ -181,8 +181,8 @@ paths:
     post:
       tags:
         - Actions
-      summary: Fire your bazooka
-      description: This endpoint can be used to fire a bazooka at another group, with a 50% chance of hitting yourself instead
+      summary: Throw a boomerang
+      description: This endpoint can be used to throw a boomerang at another group, with a 50% chance of hitting yourself instead
       security:
         - bearer: []
       parameters:
@@ -195,19 +195,19 @@ paths:
           required: true
       responses:
         200:
-          $ref: "#/components/responses/Shot"
+          $ref: "#/components/responses/Throw"
         400:
           $ref: "#/components/responses/InvalidRequest"
         404:
           $ref: "#/components/responses/NotFound"
         403:
           $ref: "#/components/responses/Forbidden"
-  /pistol:
+  /shell:
     get:
       tags:
         - Actions
-      summary: Buy pistol ammo
-      description: This endpoint can be used to buy ammunation for your pistol
+      summary: Buy shells
+      description: This endpoint can be used to buy shells
       security:
         - bearer: []
       responses:
@@ -222,8 +222,8 @@ paths:
     post:
       tags:
         - Actions
-      summary: Fire your pistol
-      description: This endpoint can be used to shoot another group
+      summary: Throw a shell
+      description: This endpoint can be used to throw shells at another group
       security:
         - bearer: []
       parameters:
@@ -236,19 +236,19 @@ paths:
           required: true
       responses:
         200:
-          $ref: "#/components/responses/Shot"
+          $ref: "#/components/responses/Throw"
         400:
           $ref: "#/components/responses/InvalidRequest"
         404:
           $ref: "#/components/responses/NotFound"
         403:
           $ref: "#/components/responses/Forbidden"
-  /revive:
+  /oneup:
     post:
       tags:
         - Actions
       summary: Revive player
-      description: This endpoint revives the player.
+      description: This endpoint oneups the player to get back in the game. Used if eliminated.
       security:
         - bearer: []
       responses:
@@ -283,12 +283,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/PlayersResponse"
-    WarzoneEventResponse:
+    WariozoneEventResponse:
       description: The list of events from the game
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/WarzoneEventResponse"
+            $ref: "#/components/schemas/WariozoneEvent"
     Prices:
       description: The prices for items in the game
       content:
@@ -307,7 +307,7 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Player"
-    Shot:
+    Throw:
       description: The result of a fired shot
       content:
         application/json:
@@ -331,21 +331,21 @@ components:
     Prices:
       type: object
       properties:
-        ammo:
+        shell:
           type: integer
-          description: The ammo cost
+          description: The shell cost
           example: 1
-        rocket:
+        boomerang:
           type: integer
-          description: The rocket cost
+          description: The boomerang cost
           example: 2
-        bandage:
+        mushroom:
           type: integer
-          description: The bandage cost
+          description: The mushroom cost
           example: 1
-        armor:
+        star:
           type: integer
-          description: The armor cost
+          description: The star cost
           example: 1
     Rules:
       type: object
@@ -356,32 +356,29 @@ components:
         initialHealth:
           type: integer
           description: The initial health of new players
-        armor:
+        star:
           type: number
-          description: The reduction factor applied to a shot when using armor
+          description: The reduction factor applied to a shot when using star
         initialCoins:
           type: integer
           description: The initial amount of coins
-        reviveCoins:
+        shellDamage:
           type: integer
-          description: The amount of coins given after a revive
-        pistolDamage:
+          description: The amount of damage a shell gives to a target
+        boomerangDamage:
           type: integer
-          description: The amount of damage a pistol gives to a target
-        bazookaDamage:
+          description: The amount of damaga a boomerang gives to a targer
+        boomerangRisk:
           type: integer
-          description: The amount of damaga a bazooka gives to a targer
-        bazookaRisk:
-          type: integer
-          description: The chance of getting hit by your own bazooka shot, given in percents
+          description: The chance of getting hit by your own boomerang shot, given in percents
         prices:
           type: string
           description: The endpoint for getting prices
-    WarzoneEventResponse:
+    WariozoneEventResponse:
       type: array
       items:
-        $ref: "#/components/schemas/WarzoneEvent"
-    WarzoneEvent:
+        $ref: "#/components/schemas/WariozoneEvent"
+    WariozoneEvent:
       type: object
       properties:
         id:
@@ -391,7 +388,7 @@ components:
         type:
           type: string
           description: The type of event being fired
-          example: "revive"
+          example: "oneup"
         source:
           type: string
           description: The group who fired the event
@@ -440,33 +437,33 @@ components:
           type: integer
           description: The amount of coins
           example: 10
-        ammo:
+        shells:
           type: integer
-          description: The amount of pistol ammo
+          description: The amount of shells
           example: 1
-        armor:
+        star:
           type: integer
-          description: The amount of armor
+          description: The amount of stars
           example: 1
-        bandages:
+        mushroom:
           type: integer
-          description: The amount of bandages
+          description: The amount of mushroom
           example: 1
-        rockets:
+        boomerangs:
           type: integer
-          description: The amount of rockets
+          description: The amount of boomerangs
           example: 1
-        kills:
+        eliminations:
           type: integer
-          description: The amount of kills
+          description: The amount of eliminations
           example: 3
         deaths:
           type: integer
           description: The amount of deaths
           example: 1
-        dead:
+        eliminated:
           type: boolean
-          description: Dead or no dead?
+          description: Eliminated or not eliminated?
           example: true
       required:
         - name
