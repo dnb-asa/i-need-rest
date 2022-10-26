@@ -24,7 +24,7 @@ paths:
       summary: Get your stats
       description: This endpoint returns the stats of the player
       security:
-        - bearer: []
+        - bearerAuth: []
       responses:
         200:
           $ref: "#/components/responses/Player"
@@ -84,7 +84,7 @@ paths:
       summary: Join the Wariozone game
       description: This enters the group to the game and opens for use of other endpoints. Before calling this endpoint you cannot participate in the game. 
       security:
-        - bearer: []
+        - bearerAuth: []
       responses:
         200:
           $ref: "#/components/responses/Message"
@@ -101,7 +101,7 @@ paths:
       summary: Request coins
       description: This endpoint gives you coins.
       security:
-        - bearer: []
+        - bearerAuth: []
       responses:
         200:
           $ref: "#/components/responses/Message"
@@ -118,7 +118,7 @@ paths:
       summary: Buy star
       description: This endpoint can be used to buy stars with your coins
       security:
-        - bearer: []
+        - bearerAuth: []
       responses:
         200:
           $ref: "#/components/responses/Message"
@@ -135,7 +135,7 @@ paths:
       summary: Buy mushroom
       description: This endpoint can be used to buy mushrooms with your coins
       security:
-        - bearer: []
+        - bearerAuth: []
       responses:
         200:
           $ref: "#/components/responses/Message"
@@ -151,7 +151,7 @@ paths:
       summary: Use mushroom
       description: This endpoint can be used to apply mushroom and restore some health
       security:
-        - bearer: []
+        - bearerAuth: []
       responses:
         200:
           $ref: "#/components/responses/Message"
@@ -168,7 +168,7 @@ paths:
       summary: Buy boomerangs
       description: This endpoint can be used to buy boomerangs
       security:
-        - bearer: []
+        - bearerAuth: []
       responses:
         200:
           $ref: "#/components/responses/Message"
@@ -184,7 +184,7 @@ paths:
       summary: Throw a boomerang
       description: This endpoint can be used to throw a boomerang at another group, with a 50% chance of hitting yourself instead
       security:
-        - bearer: []
+        - bearerAuth: []
       parameters:
         - in: query
           name: target
@@ -209,7 +209,7 @@ paths:
       summary: Buy shells
       description: This endpoint can be used to buy shells
       security:
-        - bearer: []
+        - bearerAuth: []
       responses:
         200:
           $ref: "#/components/responses/Message"
@@ -225,7 +225,7 @@ paths:
       summary: Throw a shell
       description: This endpoint can be used to throw shells at another group
       security:
-        - bearer: []
+        - bearerAuth: []
       parameters:
         - in: query
           name: target
@@ -250,7 +250,7 @@ paths:
       summary: Revive player
       description: This endpoint oneups the player to get back in the game. Used if dead.
       security:
-        - bearer: []
+        - bearerAuth: []
       responses:
         200:
           $ref: "#/components/responses/Message"
@@ -260,9 +260,11 @@ paths:
           $ref: "#/components/responses/Forbidden"
 components:
   securitySchemes:
-    bearer:
-      type: apiKey
+    bearerAuth:
+      type: http
       name: Authorization
+      scheme: bearer
+      bearerFormat: JWT
       in: header
   requestBodies:
     join:
