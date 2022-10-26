@@ -4,7 +4,7 @@ info:
   description: The API specification for the Wariozone game
   version: 1.0.0
 servers:
-  - url: wariozone.web.app
+  - url: https://wariozone.web.app/api
     description: Production server
 
 paths:
